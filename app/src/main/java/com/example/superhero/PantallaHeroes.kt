@@ -2,6 +2,7 @@ package com.example.superhero
 
 import android.content.res.Resources.Theme
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,16 +14,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.superhero.data.DatosHeroe
 import com.example.superhero.model.Hero
 import com.example.superhero.ui.theme.Shapes
+import com.example.superhero.ui.theme.Typography
+import org.w3c.dom.Text
 
 @Composable
 fun HeroesSalgan(){
@@ -38,7 +45,7 @@ fun HeroeCard(heroe: Hero, modifier: Modifier= Modifier){
 
         ){
             Row(
-                modifier= Modifier
+               modifier= Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             ){
@@ -48,11 +55,21 @@ fun HeroeCard(heroe: Hero, modifier: Modifier= Modifier){
                     modifier = Modifier)
                 Column (modifier= Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center){
+                    Text(
+                        text = stringResource(id = heroe.nombreRes), //fontSize = FontWeight.Bold
+
+                    )
 
                 }
+
+
+
+
             }
         }
 }
+
+
 @Composable
 fun imagenHero(imagen: Int , descripcion: Int ,modifier: Modifier){
     Image(
