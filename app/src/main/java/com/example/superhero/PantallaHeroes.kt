@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +22,7 @@ import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -50,16 +53,16 @@ import org.w3c.dom.Text
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeroesSalgan(){
+fun HeroesSalganApp(){
     Scaffold (topBar= {
-                  Barra() 
+                  Barra()
                    }
              ){ it->
-        
+
             LazyColumn(contentPadding = it) {
                 items(DatosHeroe().heroes()) {
-                    HeroeCard(heroe = it)
-                    Spacer(modifier = Modifier.width(8.dp))
+                    HeroeCard(heroe = it,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
                 }
             }
         }
@@ -68,19 +71,22 @@ fun HeroesSalgan(){
 @Composable
 fun HeroeCard(heroe: Hero, modifier: Modifier= Modifier){
         Card(
-            modifier= Modifier.fillMaxWidth(),
+            elevation=CardDefaults.cardElevation(defaultElevation = 2.dp),
+            modifier= modifier.fillMaxWidth(),
             shape = Shapes.large,
 
         ){
-            Column(
-               modifier= Modifier
-                   .padding(16.dp)
-            ){
-                Row  (modifier= Modifier.fillMaxWidth()){ //fontSize = FontWeight.Bold
+                Row  (
+                    modifier= Modifier
+                             .fillMaxWidth()
+                             .padding(16.dp)
+                             .size(72.dp)){ //fontSize = FontWeight.Bold
                     InfoHeroe(nombre = heroe.nombreRes,
                         descripcion =heroe.descripcionRes,
                         modifier = Modifier)
+
                     Spacer(modifier= Modifier.width(16.dp))
+
                     imagenHero(
                             imagen = heroe.imageRes,
                             descripcion =heroe.descripcionRes ,
@@ -89,7 +95,7 @@ fun HeroeCard(heroe: Hero, modifier: Modifier= Modifier){
 
             }
         }
-}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -99,38 +105,40 @@ fun Barra(modifier: Modifier= Modifier){
                Row{
                    Text(text = stringResource(id = R.string.superheores),
                        textAlign = TextAlign.Center,
-                       style = Typography.displayLarge,
+                         style = Typography.displayLarge,
                         )
 
                }
            },
            modifier= modifier
        )
-           
-       
+
+
 }
 
 @Composable
 fun imagenHero(imagen: Int , descripcion: Int ,modifier: Modifier= Modifier){
-    Column (
+     Box(
         modifier
-            .height(72.dp)
-            .width(100.dp)){
+            .size(72.dp)
+            .clip(Shapes.small)){
         Image(
             painter = painterResource(id = imagen),
             contentDescription = stringResource(id = descripcion),
+            alignment=Alignment.TopCenter,
+            contentScale=ContentScale.FillWidth,
             modifier=modifier.clip(shape = Shapes.small),
         )
     }
-    Spacer(modifier= Modifier.width(8.dp))
+
 }
 
 @Composable
 fun InfoHeroe(nombre: Int, descripcion:Int ,modifier: Modifier= Modifier){
      Column(
-         modifier = Modifier
-             .height(72.dp)
-             .width(280.dp)) {
+         modifier = Modifier.width(250.dp),
+     )
+     {
          Text(
               text = stringResource(id=nombre),
               style = Typography.displaySmall
@@ -142,10 +150,11 @@ fun InfoHeroe(nombre: Int, descripcion:Int ,modifier: Modifier= Modifier){
      }
 }
 
+
 @Preview
 @Composable
 fun cardHeroePreviw(){
 
-    HeroesSalgan()
+    HeroesSalganApp()
 
 }
