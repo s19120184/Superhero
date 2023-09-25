@@ -14,16 +14,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ModifierInfo
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.fontResource
@@ -31,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.superhero.data.DatosHeroe
@@ -39,10 +48,22 @@ import com.example.superhero.ui.theme.Shapes
 import com.example.superhero.ui.theme.Typography
 import org.w3c.dom.Text
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroesSalgan(){
-
-}
+    Scaffold (topBar= {
+                  Barra() 
+                   }
+             ){ it->
+        
+            LazyColumn(contentPadding = it) {
+                items(DatosHeroe().heroes()) {
+                    HeroeCard(heroe = it)
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+            }
+        }
+        }
 
 @Composable
 fun HeroeCard(heroe: Hero, modifier: Modifier= Modifier){
@@ -70,10 +91,31 @@ fun HeroeCard(heroe: Hero, modifier: Modifier= Modifier){
         }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Barra(modifier: Modifier= Modifier){
+       CenterAlignedTopAppBar(
+           title = {
+               Row{
+                   Text(text = stringResource(id = R.string.superheores),
+                       textAlign = TextAlign.Center,
+                       style = Typography.displayLarge,
+                        )
+
+               }
+           },
+           modifier= modifier
+       )
+           
+       
+}
 
 @Composable
 fun imagenHero(imagen: Int , descripcion: Int ,modifier: Modifier= Modifier){
-    Column (modifier.height(72.dp).width(100.dp)){
+    Column (
+        modifier
+            .height(72.dp)
+            .width(100.dp)){
         Image(
             painter = painterResource(id = imagen),
             contentDescription = stringResource(id = descripcion),
@@ -86,7 +128,9 @@ fun imagenHero(imagen: Int , descripcion: Int ,modifier: Modifier= Modifier){
 @Composable
 fun InfoHeroe(nombre: Int, descripcion:Int ,modifier: Modifier= Modifier){
      Column(
-         modifier = Modifier.height(72.dp).width(280.dp)) {
+         modifier = Modifier
+             .height(72.dp)
+             .width(280.dp)) {
          Text(
               text = stringResource(id=nombre),
               style = Typography.displaySmall
@@ -101,9 +145,7 @@ fun InfoHeroe(nombre: Int, descripcion:Int ,modifier: Modifier= Modifier){
 @Preview
 @Composable
 fun cardHeroePreviw(){
-    HeroeCard(
-        heroe= Hero( nombreRes = R.string.hero1,
-        descripcionRes = R.string.description1,
-        imageRes = R.drawable.android_superhero1),
-        modifier = Modifier)
+
+    HeroesSalgan()
+
 }
